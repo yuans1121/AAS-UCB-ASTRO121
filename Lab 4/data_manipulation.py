@@ -155,6 +155,8 @@ def corrected_velocity(ell):
 
     return v + doppler_corrections[ell_to_index(ell)] / 1000
 
+from numpy import array 
+
 def perpendicular_vector(v):
     """Find the perindicular vector (2D)"""
     return array([v[1], -v[0]])
@@ -167,7 +169,7 @@ def unit_vector(v):
     """Find the unit vector. Careful about zero vector.."""
     return v / mag(v)
 
-    from numpy import cos, sin, arcsin
+from numpy import cos, sin, arcsin
 from astropy.units import deg
 def point(gamma, R_0 = -8.5, R = 15.):
     """
@@ -283,15 +285,15 @@ def x_y_indicies_along_line(ell, x, y, x_arr, y_arr, R = 30):
     x, y = [x0, x1], [y0,y1] (0 is start, 1 is end)
     """
     
-    sol_index = close_index(x[0], x_galactic), close_index(y[0], y_galactic)
-    end_index = close_index(x[1], x_galactic), close_index(y[1], y_galactic)
+    sol_index = close_index(x[0], x_arr), close_index(y[0], y_arr)
+    end_index = close_index(x[1], x_arr), close_index(y[1], y_arr)
     
     line_coordinates = connect(array([[sol_index[0], sol_index[1]], [ end_index[0], end_index[1]]])).T # in index space
 
     
     return line_coordinates[0], line_coordinates[1]
 
-def expected_velocities(ell, x, y, x_arr, y_arr, R = 30):
+def expected_velocities(ell, x, y, x_arr, y_arr, R = 30, vel_grid = []):
     """
     Get the expected velocities along a line at an angle ell and length R
     """
